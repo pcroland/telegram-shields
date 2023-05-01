@@ -30,7 +30,7 @@ async def shields():
     except ServerTimeoutError:
         return 500, "Timeout reached."
 
-    if _json["ok"] == False:
+    if not _json["ok"]:
         return 400, "Invalid chat_id."
 
     print(_json)
