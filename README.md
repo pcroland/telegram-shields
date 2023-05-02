@@ -2,7 +2,7 @@
 Custom Telegram membercount endpoint to shields.io
 
 ## Usage
-`chat_id` = channel or groups link\
+`chat_id` = channel or group's link\
 `prefix` = text before number of users (default: "")\
 `suffix` = text after number of users (default: "members")
 
