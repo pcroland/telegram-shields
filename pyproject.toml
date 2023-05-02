@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "telegram-shields"
 version = "0.1.0"
-description = "Custom Telegram membercount endpoint to shields.io"
+description = "Custom Telegram membercount endpoint for shields.io"
 authors = ["pcroland <pcroland@protonmail.ch>"]
 license = "MIT"
 readme = "README.md"

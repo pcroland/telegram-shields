@@ -7,7 +7,7 @@ from aiohttp import ClientSession, ClientTimeout
 from aiohttp.client_exceptions import ServerTimeoutError
 import json
 
-app = Quart("Quart APIs")
+app = Quart("Custom Telegram membercount endpoint for shields.io")
 
 
 @app.before_serving
