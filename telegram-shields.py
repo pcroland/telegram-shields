@@ -31,10 +31,10 @@ async def shields():
         async with app.session.get(url, timeout=ClientTimeout(total=10)) as r:
             _json = json.loads(await r.text())
     except ServerTimeoutError:
-        return 500, "Timeout reached."
+        return "Telegram API seems to be down.", 500
 
     if not _json["ok"]:
-        return 400, "Invalid chat_id."
+        return "Invalid chat_id.", 400
 
     members = str(_json["result"])
 
