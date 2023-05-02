@@ -17,29 +17,21 @@ async def init_session():
 
 @app.route("/tgmembercount")
 async def shields():
-    chat_id = request.args.get("chat_id", None)
-    if not chat_id: return "Example: tgmembercount?chat_id=pythontelegrambotgroup"
-    if not chat_id.startswith("@"):
-        chat_id = f"@{chat_id}"
-
     prefix = request.args.get("prefix", "")
     suffix = request.args.get("suffix", "members")
+    chat_id = request.args.get("chat_id", None)
+    if not chat_id: return "Example: tgmembercount?chat_id=pythontelegrambotgroup", 400
+    if not chat_id.startswith("@"): chat_id = f"@{chat_id}"
 
     url = f"https://api.telegram.org/bot{config['telegram_api_key']}/getChatMembersCount?chat_id={chat_id}"
-
     try:
         async with app.session.get(url, timeout=ClientTimeout(total=10)) as r:
             _json = json.loads(await r.text())
     except ServerTimeoutError:
         return "Telegram API seems to be down.", 500
+    if not _json["ok"]: return "Invalid chat_id.", 400
 
-    if not _json["ok"]:
-        return "Invalid chat_id.", 400
-
-    members = str(_json["result"])
-
-    members_str = " ".join(s.strip() for s in [prefix, members, suffix] if s not in [None, ""])
-
+    members_str = " ".join(s.strip() for s in [prefix, str(_json["result"]), suffix] if s not in [None, ""])
     shields_schema = {
         "color": "1d93d2",
         "label": "Telegram",
@@ -47,7 +39,6 @@ async def shields():
         "namedLogo": "telegram",
         "schemaVersion": 1
     }
-
     return shields_schema
 
 
