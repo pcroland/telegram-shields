@@ -22,6 +22,9 @@ async def shields():
     if not chat_id.startswith("@"):
         chat_id = f"@{chat_id}"
 
+    prefix = request.args.get("prefix", "")
+    suffix = request.args.get("suffix", "members")
+
     url = f"https://api.telegram.org/bot{config['telegram_api_key']}/getChatMembersCount?chat_id={chat_id}"
 
     try:
@@ -33,16 +36,15 @@ async def shields():
     if not _json["ok"]:
         return 400, "Invalid chat_id."
 
-    print(_json)
+    members = str(_json["result"])
 
-    members = _json["result"]
+    members_str = " ".join(s.strip() for s in [prefix, members, suffix] if s not in [None, ""])
 
     shields_schema = {
         "color": "1d93d2",
         "label": "Telegram",
+        "message": members_str,
         "namedLogo": "telegram",
-        "logoColor": "blue",
-        "message": f"{members} members",
         "schemaVersion": 1
     }
 
